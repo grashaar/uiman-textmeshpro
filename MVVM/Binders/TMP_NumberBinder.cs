@@ -12,6 +12,9 @@ namespace UnuGames.MVVM
         [HideInInspector]
         public BindingField valueField = new BindingField("Number");
 
+        [HideInInspector]
+        public FloatConverter valueConverter = new FloatConverter("Number");
+
         public string format;
         public float timeChange = 0.25f;
 
@@ -24,42 +27,25 @@ namespace UnuGames.MVVM
             SubscribeOnChangedEvent(this.valueField, OnUpdateText);
         }
 
-        public void OnUpdateText(object newNumber)
+        public void OnUpdateText(object newVal)
         {
-            if (newNumber == null)
-                return;
+            var oldValue = this.valueConverter.Convert(this.text.text, this);
+            var newValue = this.valueConverter.Convert(newVal, this);
 
-            double.TryParse(this.text.text, out var val);
-            double.TryParse(newNumber.ToString(), out var change);
-
-            UITweener.Value(this.gameObject, this.timeChange, (float)val, (float)change)
-                     .SetOnUpdate(OnUpdate)
-                     .SetOnComplete(() => OnComplete(newNumber));
+            UITweener.Value(this.gameObject, this.timeChange, oldValue, newValue)
+                     .SetOnUpdate(SetValue)
+                     .SetOnComplete(() => SetValue(newValue));
         }
 
-        private void OnUpdate(float val)
+        private void SetValue(float value)
         {
             if (string.IsNullOrEmpty(this.format))
             {
-                this.text.text = val.ToString();
+                this.text.text = value.ToString();
             }
             else
             {
-                this.text.text = string.Format(this.format, val);
-            }
-        }
-
-        private void OnComplete(object newNumber)
-        {
-            var text = newNumber.ToString();
-
-            if (string.IsNullOrEmpty(this.format))
-            {
-                this.text.text = text;
-            }
-            else
-            {
-                this.text.text = string.Format(this.format, text);
+                this.text.text = string.Format(this.format, value);
             }
         }
     }
