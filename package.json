@@ -4,7 +4,7 @@
   "displayName": "UIMan TextMeshPro",
   "license": "MIT",
   "name": "com.grashaar.uiman-textmeshpro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "category": "library",
   "unity": "2019.1",
   "dependencies": {
