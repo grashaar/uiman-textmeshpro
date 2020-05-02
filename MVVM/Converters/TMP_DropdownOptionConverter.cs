@@ -8,7 +8,7 @@ namespace UnuGames.MVVM
     {
         public TMP_DropdownOptionConverter(string label) : base(label) { }
 
-        public override TMP_Dropdown.OptionData Convert(object value, UnityEngine.Object context)
+        protected override TMP_Dropdown.OptionData ConvertWithoutAdapter(object value, UnityEngine.Object context)
             => TMP_DropdownOptionAdapter.Convert(value, true, context);
     }
 }
