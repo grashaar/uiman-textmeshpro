@@ -85,15 +85,7 @@ namespace UnuGames.MVVM
         private void SetValue(float value)
         {
             this.value = value;
-
-            if (string.IsNullOrEmpty(this.format))
-            {
-                this.text.text = value.ToString();
-            }
-            else
-            {
-                this.text.text = string.Format(this.format, value);
-            }
+            this.text.SetText(string.IsNullOrEmpty(this.format) ? value.ToString() : string.Format(this.format, value));
         }
     }
 }
